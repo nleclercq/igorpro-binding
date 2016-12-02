@@ -78,5 +78,7 @@ set PATH=c:\github\igorpro-binding\runtime\windows\lib\x64\tango-9.2.2-vc12;%PAT
 # Links
 
 [Tango Controls home page](http://tango-controls.org)
+
 [WaveMetrics home page](http://wavemetrics.com)
+
 [WaveMetrics XOP Toolkit home page](http://wavemetrics.com/products/xoptoolkit/xoptoolkit.htm)
