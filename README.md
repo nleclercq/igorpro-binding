@@ -2,12 +2,11 @@
 
 # About the Igor Pro binding for Tango
 
-This is the Igor Pro client API for [Tango](http://tango-controls.org). 
-It runs on Linux and Windows and supports both the x86 and x64 version of Igor Pro.
+This is the [Igor Pro](http://wavemetrics.com) client API for [Tango](http://tango-controls.org). 
 
 # Documentation
 
-See  `../tutorial/tutorial.ipf`
+See  `/tutorial/tutorial.ipf`
 
 # How to build on Windows using Microsoft Visual C++ 
 - software requirements 
