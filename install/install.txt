@@ -1,0 +1,17 @@
+For any user:
+
+Adapt the <start-igorpro.bat> for your local <PATH_TO_BINDING_INSTALL_DIR> then use it 
+to launch Igor Pro. That script is supposed to properly setup the PATH env. var. in order
+to make Igor able to find/load the binding XOP (and the required Tango related runtime libraries).
+
+In "[IGOR_INSTALL_DIR]\Igor Extensions" create a shortcut to "<PATH_TO_BINDING_INSTALL_DIR>\>\xop\tango_binding.xop"
+In "[IGOR_INSTALL_DIR]\Igor Procedures" create a shortcut to "<PATH_TO_BINDING_INSTALL_DIR>\iproc-files\tango_loader.ipf"
+In "[IGOR_INSTALL_DIR]\User Procedures" create a shortcut to "<PATH_TO_BINDING_INSTALL_DIR>\iproc-files\tango_monitor.ipf" 
+In "[IGOR_INSTALL_DIR]\User Procedures" create a shortcut to "<PATH_TO_BINDING_INSTALL_DIR>\iproc-files\tango.ipf" 
+In "[IGOR_INSTALL_DIR]\User Procedures" create a shortcut to "<PATH_TO_BINDING_INSTALL_DIR>\iproc-files\tools.ipf" 
+
+For SOLEIL users:
+
+In "[IGOR_INSTALL_DIR]\User Procedures" create a shortcut to "<PATH_TO_BINDING_INSTALL_DIR>\sproc-files\soleil_axis_panel.ipf" 
+
+
