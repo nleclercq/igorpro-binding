@@ -1,12 +1,13 @@
 [![logo](http://www.tango-controls.org/static/tango/img/logo_tangocontrols.png)](http://www.tango-controls.org)
 
 # About the Igor Pro binding for Tango
-
 This is the [Igor Pro](http://wavemetrics.com) client API for [Tango](http://tango-controls.org). 
 
 # Documentation
-
 See  `/tutorial/tutorial.ipf`
+
+# Binary Distributions
+The [download page of Tango web side](http://www.tango-controls.org/downloads/bindings) might contain a binary package that could fit your needs - particularly on Windows. Please, have a look to the available packages before trying to recompile the source code. 
 
 # How to build on Windows using Microsoft Visual C++ 
 - software requirements 
