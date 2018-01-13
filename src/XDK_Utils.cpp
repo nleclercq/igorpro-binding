@@ -109,22 +109,22 @@ void XDK_Utils::notify (const char *format, ...)
   size_t fmtlen = ::strlen(format) + 1;
 
   if (fmtlen > INLINE_BUF_SIZE)  
-    buf = (char*)::NewPtr(fmtlen);
+    buf = (char*)::WMNewPtr(fmtlen);
     
   va_list argptr;
   va_start(argptr, format);
   int len = ::vsprintf(buf, format, argptr);
   va_end(argptr);
 
-	if (len > 0) 
+  if (len > 0)
   {
     const char * cr = "\015";
     ::CallBack1(NOTICE, buf);
     ::CallBack1(NOTICE, const_cast<char*>(cr));  
-	} 
+  }
 	
-	if (buf != notify_str)  
-    ::DisposePtr((Ptr)buf);
+  if (buf != notify_str)
+      ::WMDisposePtr((Ptr)buf);
 }
 
 //=============================================================================
@@ -134,27 +134,27 @@ int XDK_Utils::exec_igor_cmd (const char *format, ...)
 {
   static char cmd_str[INLINE_BUF_SIZE];
 
-	char *buf = cmd_str;
+  char *buf = cmd_str;
 	
-	size_t fmtlen = strlen(format) + 1;
+  size_t fmtlen = strlen(format) + 1;
 
-  if (fmtlen > INLINE_BUF_SIZE)  
-    buf = (char*)NewPtr(fmtlen);
+  if (fmtlen > INLINE_BUF_SIZE)
+      buf = (char*)WMNewPtr(fmtlen);
     
   va_list argptr;
   va_start(argptr, format);
-    int len = ::vsprintf(buf, format, argptr);
+  int len = ::vsprintf(buf, format, argptr);
   va_end(argptr);
 
   XOPIORecResult result = 0;
 
-	if (len > 0) 
-    result = ::CallBack1(SILENT_COMMAND, buf);
+  if (len > 0)
+      result = ::CallBack1(SILENT_COMMAND, buf);
 
-	if (buf != cmd_str)  
-    ::DisposePtr((Ptr)buf);
+  if (buf != cmd_str)
+      ::WMDisposePtr((Ptr)buf);
 	  
-	return static_cast<int>(result);
+  return static_cast<int>(result);
 }
 
 //=============================================================================
@@ -375,7 +375,7 @@ int XDK_Utils::set_df_obj (DataFolderHandle _dfh, const char* _obj, const char* 
   
   int err = ::SetDataFolderObject(_dfh, _obj, STR_OBJECT, &obj_val);
 
-  DisposeHandle(obj_val.strH);
+  WMDisposeHandle(obj_val.strH);
     
   return (err != 0) ? kError : kNoError;
 }
@@ -435,7 +435,7 @@ int XDK_Utils::get_df_obj (DataFolderHandle _dfh, const char* _obj,  char* str_,
   if (obj_type != STR_OBJECT)
     return kError;
 
-  BCInt strh_size = GetHandleSize(obj_val.strH);
+  BCInt strh_size = WMGetHandleSize(obj_val.strH);
   if (strh_size > static_cast<yat::int32>(_size) - 1)
     return kError;
 
@@ -460,7 +460,7 @@ int XDK_Utils::get_df_obj (DataFolderHandle _dfh, const std::string& _obj, std::
   if (obj_type != STR_OBJECT)
     return kError;
 
-  BCInt strh_size = ::GetHandleSize(obj_val.strH);
+  BCInt strh_size = ::WMGetHandleSize(obj_val.strH);
 
   stdstr_.assign(*(obj_val.strH), strh_size);
 
@@ -511,15 +511,15 @@ int XDK_Utils::handle_to_str (Handle& _hdl, char* cstr_, int _len, bool _release
   if (_hdl == 0)
     return USING_NULL_STRVAR;
 
-  if (::GetHandleSize(_hdl) >= _len) 
+  if (::WMGetHandleSize(_hdl) >= _len) 
     return kError;
 
   ::memset(cstr_, 0, _len);
 
-  ::strncpy(cstr_, *_hdl, ::GetHandleSize(_hdl));
+  ::strncpy(cstr_, *_hdl, ::WMGetHandleSize(_hdl));
   
   if (_release)
-    ::DisposeHandle(_hdl);
+    ::WMDisposeHandle(_hdl);
 
   return kNoError;
 }
@@ -532,10 +532,10 @@ int XDK_Utils::handle_to_str (Handle& _hdl, std::string& stdstr_, bool _release)
   if (_hdl == 0)
     return USING_NULL_STRVAR;
 
-  stdstr_.assign(*_hdl, ::GetHandleSize(_hdl));
+  stdstr_.assign(*_hdl, ::WMGetHandleSize(_hdl));
 
   if (_release)
-    ::DisposeHandle(_hdl);
+    ::WMDisposeHandle(_hdl);
 
   return kNoError;
 }
@@ -548,7 +548,7 @@ int XDK_Utils::str_to_handle (const char* _cstr, Handle& h_)
   if (! _cstr)
     return USING_NULL_STRVAR;
 
-  h_ = ::NewHandle(::strlen(_cstr));
+  h_ = ::WMNewHandle(::strlen(_cstr));
   if (! h_)
     return NOMEM;
 
@@ -563,7 +563,7 @@ int XDK_Utils::str_to_handle (const char* _cstr, Handle& h_)
 //=============================================================================
 int XDK_Utils::str_to_handle (const std::string& _stdstr, Handle& h_)
 {
-  h_ = ::NewHandle(_stdstr.size());
+  h_ = ::WMNewHandle(_stdstr.size());
   if (! h_)
     return NOMEM;
 
@@ -856,26 +856,26 @@ int XDK_Utils::export_error ()
         break;
     }
     ::MDSetTextWavePointValue(err_w, dims, temp);
-    ::DisposeHandle(temp);
+    ::WMDisposeHandle(temp);
    
     dims[1] = 1;
     if (XDK_UTILS->str_to_handle(this->error_.errors[i].reason, temp))
       return kError;
     ::MDSetTextWavePointValue(err_w, dims, temp);
-    ::DisposeHandle(temp);
+    ::WMDisposeHandle(temp);
     
     dims[1] = 2;
     if (XDK_UTILS->str_to_handle(this->error_.errors[i].desc, temp)) 
       return kError;
     ::MDSetTextWavePointValue(err_w, dims, temp);
-    ::DisposeHandle(temp);
+    ::WMDisposeHandle(temp);
     
     dims[1] = 3;
     if (XDK_UTILS->str_to_handle(this->error_.errors[i].origin, temp))
       return kError;
 
     ::MDSetTextWavePointValue(err_w, dims, temp);
-    ::DisposeHandle(temp);
+    ::WMDisposeHandle(temp);
   }
   return kNoError;
 }

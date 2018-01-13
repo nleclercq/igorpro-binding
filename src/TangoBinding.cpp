@@ -367,11 +367,11 @@ int TangoBinding::read_attributes_i (DevDescriptor* _ddesc, waveHndl _tw)
   //-- convet wave content to CORBA strings and store them into <attr_names>   
   MDWaveDims dim_indx;
   ::MemClear(dim_indx, sizeof(MDWaveDims));
-  Handle txt_hndl = ::NewHandle(0);
+  Handle txt_hndl = ::WMNewHandle(0);
   if (txt_hndl == 0) 
   {
     XDK_UTILS->set_error("API_MemoryAllocation",
-                         "NewHandle failed",
+                         "WMNewHandle failed",
                          "TangoBinding::read_attributes");
     return kError; 
   }
@@ -383,29 +383,29 @@ int TangoBinding::read_attributes_i (DevDescriptor* _ddesc, waveHndl _tw)
     dim_indx[1] = 0;
     if (::MDGetTextWavePointValue(_tw, dim_indx, txt_hndl)) 
     {
-      DisposeHandle(txt_hndl);
+      WMDisposeHandle(txt_hndl);
       XDK_UTILS->set_error("XOP internal error",
                            "MDGetTextWavePointValue failed",
                            "TangoBinding::read_attributes");
       return kError;
     }
-    tmp = CORBA::string_alloc(static_cast<CORBA::ULong>(::GetHandleSize(txt_hndl) + 1));
+    tmp = CORBA::string_alloc(static_cast<CORBA::ULong>(::WMGetHandleSize(txt_hndl) + 1));
     if (tmp == 0) 
     {
-      DisposeHandle(txt_hndl);
+      WMDisposeHandle(txt_hndl);
       XDK_UTILS->set_error("API_MemoryAllocation",
                            "CORBA::string_alloc failed",
                            "TangoBinding::read_attributes");
       return kError; 
     }
-    ::MemClear(tmp, ::GetHandleSize(txt_hndl) + 1);
-    ::memcpy(tmp, *txt_hndl, ::GetHandleSize(txt_hndl));
+    ::MemClear(tmp, ::WMGetHandleSize(txt_hndl) + 1);
+    ::memcpy(tmp, *txt_hndl, ::WMGetHandleSize(txt_hndl));
     attr_names[i] = std::string(tmp);
     attr_ids[i] = _ddesc->attr_exists(tmp);
     CORBA::string_free(tmp);
     if (attr_ids[i] == kError) 
     {
-      DisposeHandle(txt_hndl);
+      WMDisposeHandle(txt_hndl);
       std::string d = attr_names[i] + " is not a valid " + _ddesc->name() + " attribute";
       XDK_UTILS->set_error("API_AttrNotFound",
                            d.c_str(),
@@ -416,7 +416,7 @@ int TangoBinding::read_attributes_i (DevDescriptor* _ddesc, waveHndl _tw)
     dim_indx[1] = 1;
     if (::MDGetTextWavePointValue(_tw, dim_indx, txt_hndl)) 
     {
-      DisposeHandle(txt_hndl);
+      WMDisposeHandle(txt_hndl);
       XDK_UTILS->set_error("XOP internal error",
                            "MDGetTextWavePointValue failed",
                            "TangoBinding::read_attributes");
@@ -424,7 +424,7 @@ int TangoBinding::read_attributes_i (DevDescriptor* _ddesc, waveHndl _tw)
     }
     if (XDK_UTILS->handle_to_str(txt_hndl, argout_names[i], false)) 
     {
-      DisposeHandle(txt_hndl);
+      WMDisposeHandle(txt_hndl);
       XDK_UTILS->set_error("XOP internal error",
                            "handle_to_str failed",
                            "TangoBinding::read_attributes");
@@ -432,7 +432,7 @@ int TangoBinding::read_attributes_i (DevDescriptor* _ddesc, waveHndl _tw)
     }
   } 
   //- release memory
-  DisposeHandle(txt_hndl); 
+  WMDisposeHandle(txt_hndl); 
 
   std::vector<Tango::DeviceAttribute> * attr_values;
 
@@ -685,11 +685,11 @@ int TangoBinding::write_attributes_i (DevDescriptor* _ddesc, waveHndl _tw)
   //-- convet wave content to CORBA strings and store them into <attr_names>   
   MDWaveDims dim_indx;
   ::MemClear(dim_indx, sizeof(MDWaveDims));
-  Handle txt_hndl = ::NewHandle(0);
+  Handle txt_hndl = ::WMNewHandle(0);
   if (txt_hndl == 0) 
   {
     XDK_UTILS->set_error("API_MemoryAllocation",
-                         "NewHandle failed",
+                         "WMNewHandle failed",
                          "TangoBinding::write_attributes");
     return kError;
   }
@@ -700,7 +700,7 @@ int TangoBinding::write_attributes_i (DevDescriptor* _ddesc, waveHndl _tw)
     dim_indx[1] = 0;
     if (::MDGetTextWavePointValue(_tw, dim_indx, txt_hndl)) 
     {
-      DisposeHandle(txt_hndl);
+      WMDisposeHandle(txt_hndl);
       XDK_UTILS->set_error("XOP internal error",
                            "MDGetTextWavePointValue failed",
                            "TangoBinding::write_attributes");
@@ -708,7 +708,7 @@ int TangoBinding::write_attributes_i (DevDescriptor* _ddesc, waveHndl _tw)
     }
     if (XDK_UTILS->handle_to_str(txt_hndl, attr_names[i], false)) 
     {
-      DisposeHandle(txt_hndl);
+      WMDisposeHandle(txt_hndl);
       XDK_UTILS->set_error("XOP internal error",
                            "handle_to_str failed",
                            "TangoBinding::write_attributes");
@@ -717,7 +717,7 @@ int TangoBinding::write_attributes_i (DevDescriptor* _ddesc, waveHndl _tw)
     attr_ids[i] = _ddesc->attr_exists(attr_names[i]);
     if (attr_ids[i] == kError) 
     {
-      DisposeHandle(txt_hndl);
+      WMDisposeHandle(txt_hndl);
       std::string d = std::string(attr_names[i]) + " is not a valid " + _ddesc->name() + " attribute";
       XDK_UTILS->set_error("API_AttrNotFound",
                            d.c_str(),
@@ -726,7 +726,7 @@ int TangoBinding::write_attributes_i (DevDescriptor* _ddesc, waveHndl _tw)
     }
     if (_ddesc->is_attr_writable(attr_ids[i]) == false) 
     {
-      DisposeHandle(txt_hndl);
+      WMDisposeHandle(txt_hndl);
       std::string d = "attribute " + std::string(attr_names[i]) + " of " + _ddesc->name() + " is not writable";
       XDK_UTILS->set_error("API_AttrNotWritable",
                            d.c_str(),
@@ -737,7 +737,7 @@ int TangoBinding::write_attributes_i (DevDescriptor* _ddesc, waveHndl _tw)
     dim_indx[1] = 1;
     if (::MDGetTextWavePointValue(_tw, dim_indx, txt_hndl)) 
     {
-      DisposeHandle(txt_hndl);
+      WMDisposeHandle(txt_hndl);
       XDK_UTILS->set_error("XOP internal error",
                            "MDGetTextWavePointValue failed",
                            "TangoBinding::write_attributes");
@@ -745,14 +745,14 @@ int TangoBinding::write_attributes_i (DevDescriptor* _ddesc, waveHndl _tw)
     }
     if (XDK_UTILS->handle_to_str(txt_hndl, argin_names[i], false)) 
     {
-      DisposeHandle(txt_hndl);
+      WMDisposeHandle(txt_hndl);
       XDK_UTILS->set_error("XOP internal error",
                            "handle_to_str failed",
                            "TangoBinding::write_attributes");
       return kError; 
     }
   } 
-  DisposeHandle(txt_hndl);
+  WMDisposeHandle(txt_hndl);
 
   std::vector<Tango::DeviceAttribute> attr_values;
   attr_values.resize(tw_dims[0]);
@@ -1008,7 +1008,7 @@ int TangoBinding::black_box (const std::string& _dev,
         result = kError; break;
       }
       ::MDSetTextWavePointValue(w, dims, h_tmp);
-      ::DisposeHandle(h_tmp);
+      ::WMDisposeHandle(h_tmp);
     } while (0);
 	}
 

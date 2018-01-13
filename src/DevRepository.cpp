@@ -271,7 +271,7 @@ int DevDescriptor::update_commands_datafolder (const std::string& _argout)
         result = kError; break;
       }
       ::MDSetTextWavePointValue(w, dims, h_tmp);
-      ::DisposeHandle(h_tmp);
+      ::WMDisposeHandle(h_tmp);
 
       dims[1] = 1;
       if (XDK_UTILS->str_to_handle(lg_CmdArgIgorTypeName[cil[i].in_type], h_tmp)) 
@@ -279,7 +279,7 @@ int DevDescriptor::update_commands_datafolder (const std::string& _argout)
         result = kError; break;
       }
       ::MDSetTextWavePointValue(w, dims, h_tmp);
-      ::DisposeHandle(h_tmp);
+      ::WMDisposeHandle(h_tmp);
 
       dims[1] = 2;
       std::string in_type_desc = cil[i].in_type_desc;
@@ -290,7 +290,7 @@ int DevDescriptor::update_commands_datafolder (const std::string& _argout)
         result = kError; break;
       }
       ::MDSetTextWavePointValue(w, dims, h_tmp);
-      ::DisposeHandle(h_tmp);
+      ::WMDisposeHandle(h_tmp);
 
       dims[1] = 3;
       if (XDK_UTILS->str_to_handle(lg_CmdArgIgorTypeName[cil[i].out_type], h_tmp)) 
@@ -298,7 +298,7 @@ int DevDescriptor::update_commands_datafolder (const std::string& _argout)
         result = kError; break;
       }
       ::MDSetTextWavePointValue(w, dims, h_tmp);
-      ::DisposeHandle(h_tmp);
+      ::WMDisposeHandle(h_tmp);
 
       dims[1] = 4;
       std::string out_type_desc = cil[i].out_type_desc;
@@ -309,7 +309,7 @@ int DevDescriptor::update_commands_datafolder (const std::string& _argout)
         result = kError; break;
       }
       ::MDSetTextWavePointValue(w, dims, h_tmp);
-      ::DisposeHandle(h_tmp);
+      ::WMDisposeHandle(h_tmp);
     } while (0);
 
     if (result == kError) 
@@ -502,7 +502,7 @@ int DevDescriptor::update_attributes_datafolder (const std::string& _argout)
         break;
       }
       ::MDSetTextWavePointValue(w, dims, h_tmp);
-      ::DisposeHandle(h_tmp);
+      ::WMDisposeHandle(h_tmp);
 
       dims[1] = 1;
       std::string str;
@@ -527,7 +527,7 @@ int DevDescriptor::update_attributes_datafolder (const std::string& _argout)
         break;
       }
       ::MDSetTextWavePointValue(w, dims, h_tmp);
-      ::DisposeHandle(h_tmp);
+      ::WMDisposeHandle(h_tmp);
       dims[1] = 2;
       switch (ail[i].data_format) 
       {
@@ -550,7 +550,7 @@ int DevDescriptor::update_attributes_datafolder (const std::string& _argout)
         break;
       }
       ::MDSetTextWavePointValue(w, dims, h_tmp);
-      ::DisposeHandle(h_tmp);
+      ::WMDisposeHandle(h_tmp);
       dims[1] = 3;
       std::string itype_str = "-";
       switch(ail[i].data_type) 
@@ -734,7 +734,7 @@ int DevDescriptor::update_attributes_datafolder (const std::string& _argout)
         break;
       }
       ::MDSetTextWavePointValue(w, dims, h_tmp);
-      ::DisposeHandle(h_tmp);
+      ::WMDisposeHandle(h_tmp);
       dims[1] = 4;
       o << ail[i].max_dim_x << ends;
       if (XDK_UTILS->str_to_handle(o.str(), h_tmp)) 
@@ -743,7 +743,7 @@ int DevDescriptor::update_attributes_datafolder (const std::string& _argout)
         break;
       }
       ::MDSetTextWavePointValue(w, dims, h_tmp);
-      ::DisposeHandle(h_tmp);
+      ::WMDisposeHandle(h_tmp);
       dims[1] = 5;
       o << ail[i].max_dim_y << ends;
       if (XDK_UTILS->str_to_handle(o.str(), h_tmp)) 
@@ -752,7 +752,7 @@ int DevDescriptor::update_attributes_datafolder (const std::string& _argout)
         break;
       }
       ::MDSetTextWavePointValue(w, dims, h_tmp);
-      ::DisposeHandle(h_tmp);
+      ::WMDisposeHandle(h_tmp);
       dims[1] = 6;
       if (XDK_UTILS->str_to_handle(ail[i].label, h_tmp)) 
       {
@@ -760,7 +760,7 @@ int DevDescriptor::update_attributes_datafolder (const std::string& _argout)
         break;
       }
       ::MDSetTextWavePointValue(w, dims, h_tmp);
-      ::DisposeHandle(h_tmp);
+      ::WMDisposeHandle(h_tmp);
       dims[1] = 7;
       if (XDK_UTILS->str_to_handle(ail[i].unit, h_tmp)) 
       {
@@ -768,7 +768,7 @@ int DevDescriptor::update_attributes_datafolder (const std::string& _argout)
         break;
       }
       ::MDSetTextWavePointValue(w, dims, h_tmp);
-      ::DisposeHandle(h_tmp);
+      ::WMDisposeHandle(h_tmp);
       dims[1] = 8;
       if (XDK_UTILS->str_to_handle(ail[i].standard_unit, h_tmp)) 
       {
@@ -776,7 +776,7 @@ int DevDescriptor::update_attributes_datafolder (const std::string& _argout)
         break;
       }
       ::MDSetTextWavePointValue(w, dims, h_tmp);
-      ::DisposeHandle(h_tmp);
+      ::WMDisposeHandle(h_tmp);
       dims[1] = 9;
       if (XDK_UTILS->str_to_handle(ail[i].display_unit, h_tmp)) 
       {
@@ -784,7 +784,7 @@ int DevDescriptor::update_attributes_datafolder (const std::string& _argout)
         break;
       }
       ::MDSetTextWavePointValue(w, dims, h_tmp);
-      ::DisposeHandle(h_tmp);
+      ::WMDisposeHandle(h_tmp);
       dims[1] = 10;
       if (XDK_UTILS->str_to_handle(ail[i].format, h_tmp)) 
       {
@@ -792,7 +792,7 @@ int DevDescriptor::update_attributes_datafolder (const std::string& _argout)
         break;
       }
       ::MDSetTextWavePointValue(w, dims, h_tmp);
-      ::DisposeHandle(h_tmp);
+      ::WMDisposeHandle(h_tmp);
       dims[1] = 11;
       if (XDK_UTILS->str_to_handle(ail[i].min_value, h_tmp)) 
       {
@@ -800,7 +800,7 @@ int DevDescriptor::update_attributes_datafolder (const std::string& _argout)
         break;
       }
       ::MDSetTextWavePointValue(w, dims, h_tmp);
-      ::DisposeHandle(h_tmp);
+      ::WMDisposeHandle(h_tmp);
       dims[1] = 12;
       if (XDK_UTILS->str_to_handle(ail[i].max_value, h_tmp)) 
       {
@@ -808,7 +808,7 @@ int DevDescriptor::update_attributes_datafolder (const std::string& _argout)
         break;
       }
       ::MDSetTextWavePointValue(w, dims, h_tmp);
-      ::DisposeHandle(h_tmp);
+      ::WMDisposeHandle(h_tmp);
       dims[1] = 13;
       if (XDK_UTILS->str_to_handle(ail[i].min_alarm, h_tmp)) 
       {
@@ -816,7 +816,7 @@ int DevDescriptor::update_attributes_datafolder (const std::string& _argout)
         break;
       }
       ::MDSetTextWavePointValue(w, dims, h_tmp);
-      ::DisposeHandle(h_tmp);
+      ::WMDisposeHandle(h_tmp);
       dims[1] = 14;
       if (XDK_UTILS->str_to_handle(ail[i].max_alarm, h_tmp)) 
       {
@@ -824,7 +824,7 @@ int DevDescriptor::update_attributes_datafolder (const std::string& _argout)
         break;
       }
       ::MDSetTextWavePointValue(w, dims, h_tmp);
-      ::DisposeHandle(h_tmp);
+      ::WMDisposeHandle(h_tmp);
 
       dims[1] = 16;
       if (XDK_UTILS->str_to_handle(ail[i].writable_attr_name, h_tmp)) 
@@ -833,7 +833,7 @@ int DevDescriptor::update_attributes_datafolder (const std::string& _argout)
         break;
       }
       ::MDSetTextWavePointValue(w, dims, h_tmp);
-      ::DisposeHandle(h_tmp);
+      ::WMDisposeHandle(h_tmp);
 
       dims[1] = 15;
       if (XDK_UTILS->str_to_handle(ail[i].description, h_tmp)) 
@@ -842,7 +842,7 @@ int DevDescriptor::update_attributes_datafolder (const std::string& _argout)
         break;
       }
       ::MDSetTextWavePointValue(w, dims, h_tmp);
-      ::DisposeHandle(h_tmp);
+      ::WMDisposeHandle(h_tmp);
     } while (0);
 
     if (result == kError) 

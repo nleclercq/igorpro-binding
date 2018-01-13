@@ -1082,11 +1082,11 @@ int DataCodec::encode_attr (DevDescriptor* _ddesc,
             }
             else
             {
-              Handle txt_hndl = ::NewHandle(0);
+              Handle txt_hndl = ::WMNewHandle(0);
               if (txt_hndl == 0) 
               {
                 XDK_UTILS->set_error("out of memory",
-                                     "NewHandle failed",
+                                     "WMNewHandle failed",
                                      "DataCodec::encode_attr");
                 return kError; 
               }
@@ -1095,23 +1095,23 @@ int DataCodec::encode_attr (DevDescriptor* _ddesc,
               dim_indx[0] = 0;
               if (::MDGetTextWavePointValue(wave, dim_indx, txt_hndl)) 
               {
-                ::DisposeHandle(txt_hndl);
+                ::WMDisposeHandle(txt_hndl);
                 XDK_UTILS->set_error("XOP internal error",
                                      "MDGetTextWavePointValue failed",
                                      "DataCodec::encode_attr");
                 return kError; 
               }
-              char * tmp = CORBA::string_alloc(static_cast<CORBA::ULong>(::GetHandleSize(txt_hndl) + 1));
+              char * tmp = CORBA::string_alloc(static_cast<CORBA::ULong>(::WMGetHandleSize(txt_hndl) + 1));
               if (tmp == 0) 
               {
                 XDK_UTILS->set_error("out of memory",
-                                     "NewHandle failed",
+                                     "CORBA::string_alloc failed",
                                      "DataCodec::encode_attr");
                 return kError; 
               }
-              ::MemClear(tmp, ::GetHandleSize(txt_hndl) + 1);
-              ::memcpy(tmp, *txt_hndl, ::GetHandleSize(txt_hndl));
-              DisposeHandle(txt_hndl);
+              ::MemClear(tmp, ::WMGetHandleSize(txt_hndl) + 1);
+              ::memcpy(tmp, *txt_hndl, ::WMGetHandleSize(txt_hndl));
+              WMDisposeHandle(txt_hndl);
               std::string std_str(tmp);
               value_ << std_str;
               CORBA::string_free(tmp);
@@ -2282,13 +2282,13 @@ void DataCodec::insert (Tango::DeviceData& _dd, const waveHndl _wh)
 	    array->length(static_cast<CORBA::ULong>(dim_size[0]));
       MDWaveDims dim_indx;
       ::MemClear(dim_indx, sizeof(MDWaveDims));
-      Handle txt_hndl = ::NewHandle(0);
+      Handle txt_hndl = ::WMNewHandle(0);
       if (txt_hndl == 0) 
       {
         char wname[MAX_OBJ_NAME + 1];
         ::WaveName(_wh, wname);
         TangoSys_OMemStream reason;
-        reason << "out of memory error" << ends;
+        reason << "out of memory error (WMNewHandle failed)" << ends;
         TangoSys_OMemStream desc;
         desc << "could not insert data from wave " << wname << ends;
         Tango::Except::throw_exception(reason.str(), 
@@ -2301,36 +2301,36 @@ void DataCodec::insert (Tango::DeviceData& _dd, const waveHndl _wh)
         dim_indx[0] = i;
         if (::MDGetTextWavePointValue(_wh, dim_indx, txt_hndl)) 
         {
-          ::DisposeHandle(txt_hndl);
+          ::WMDisposeHandle(txt_hndl);
           char wname[MAX_OBJ_NAME + 1];
           ::WaveName(_wh, wname);
           TangoSys_OMemStream reason;
-          reason << "XOP internal error" << ends;
+          reason << "XOP internal error (MDGetTextWavePointValue failed)" << ends;
           TangoSys_OMemStream desc;
           desc << "could not insert data from wave " << wname << ends;
           Tango::Except::throw_exception(reason.str(), 
                                          desc.str(), 
                                          (const char*)"DataCodec::insert");
         }
-        tmp = CORBA::string_alloc(static_cast<CORBA::ULong>(::GetHandleSize(txt_hndl) + 1));
+        tmp = CORBA::string_alloc(static_cast<CORBA::ULong>(::WMGetHandleSize(txt_hndl) + 1));
         if (tmp == 0) 
         {
-          ::DisposeHandle(txt_hndl);
+          ::WMDisposeHandle(txt_hndl);
           char wname[MAX_OBJ_NAME + 1];
           ::WaveName(_wh, wname);
           TangoSys_OMemStream reason;
-          reason << "out of memory error" << ends;
+          reason << "out of memory error (CORBA::string_alloc failed)" << ends;
           TangoSys_OMemStream desc;
           desc << "could not insert data from wave " << wname << ends;
           Tango::Except::throw_exception(reason.str(), 
                                          desc.str(), 
                                          (const char*)"DataCodec::insert");
         }
-        ::MemClear(tmp, ::GetHandleSize(txt_hndl) + 1);
-        ::memcpy(tmp, *txt_hndl, ::GetHandleSize(txt_hndl));
+        ::MemClear(tmp, ::WMGetHandleSize(txt_hndl) + 1);
+        ::memcpy(tmp, *txt_hndl, ::WMGetHandleSize(txt_hndl));
         (*array)[i] = tmp;
       }
-      DisposeHandle(txt_hndl);
+      WMDisposeHandle(txt_hndl);
 	    _dd << array;
     } break;
     //------------------------------------------------- 
@@ -2437,7 +2437,7 @@ void DataCodec::insert (Tango::DeviceData& _dd, const waveHndl _wn, const waveHn
 	s_value->length(static_cast<CORBA::ULong>(ws_np));
   MDWaveDims dim_indx;
   ::MemClear(dim_indx, sizeof(MDWaveDims));
-  Handle txt_hndl = ::NewHandle(0);
+  Handle txt_hndl = ::WMNewHandle(0);
   if (txt_hndl == 0) 
   {
     char wname[MAX_OBJ_NAME + 1];
@@ -2445,7 +2445,7 @@ void DataCodec::insert (Tango::DeviceData& _dd, const waveHndl _wn, const waveHn
     TangoSys_OMemStream reason;
     reason << "out of memory error" << ends;
     TangoSys_OMemStream desc;
-    desc << "NewHandle failed";
+    desc << "WMNewHandle failed";
     Tango::Except::throw_exception(reason.str(), 
                                    desc.str(), 
                                    (const char*)"DataCodec::insert");
@@ -2456,7 +2456,7 @@ void DataCodec::insert (Tango::DeviceData& _dd, const waveHndl _wn, const waveHn
     dim_indx[0] = i;
     if (::MDGetTextWavePointValue(_ws, dim_indx, txt_hndl)) 
     {
-      ::DisposeHandle(txt_hndl);
+      ::WMDisposeHandle(txt_hndl);
       char wname[MAX_OBJ_NAME + 1];
       ::WaveName(_ws, wname);
       TangoSys_OMemStream reason;
@@ -2467,10 +2467,10 @@ void DataCodec::insert (Tango::DeviceData& _dd, const waveHndl _wn, const waveHn
                                      desc.str(), 
                                      (const char*)"DataCodec::insert");
     }
-    tmp = CORBA::string_alloc(static_cast<CORBA::ULong>(::GetHandleSize(txt_hndl) + 1));
+    tmp = CORBA::string_alloc(static_cast<CORBA::ULong>(::WMGetHandleSize(txt_hndl) + 1));
     if (tmp == 0) 
     {
-      ::DisposeHandle(txt_hndl);
+      ::WMDisposeHandle(txt_hndl);
       char wname[MAX_OBJ_NAME + 1];
       ::WaveName(_ws, wname);
       TangoSys_OMemStream reason;
@@ -2481,11 +2481,11 @@ void DataCodec::insert (Tango::DeviceData& _dd, const waveHndl _wn, const waveHn
                                      desc.str(), 
                                      (const char*)"DataCodec::insert"); 
     }
-    ::MemClear(tmp, ::GetHandleSize(txt_hndl) + 1);
-    ::memcpy(tmp, *txt_hndl, ::GetHandleSize(txt_hndl));
+    ::MemClear(tmp, ::WMGetHandleSize(txt_hndl) + 1);
+    ::memcpy(tmp, *txt_hndl, ::WMGetHandleSize(txt_hndl));
     (*s_value)[i] = tmp;
   }
-  DisposeHandle(txt_hndl);
+  WMDisposeHandle(txt_hndl);
 
   switch (wn_type) 
   {
@@ -2673,13 +2673,13 @@ void DataCodec::insert (Tango::DeviceAttribute& _da, waveHndl _wh, CountInt _dim
       array->length(static_cast<CORBA::ULong>((ndims <= 1) ? dim_size[0] : dim_size[0] * dim_size[1]));
       MDWaveDims dim_indx;
       ::MemClear(dim_indx, sizeof(MDWaveDims));
-      Handle txt_hndl = ::NewHandle(0);
+      Handle txt_hndl = ::WMNewHandle(0);
       if (txt_hndl == 0) 
       {
         char wname[MAX_OBJ_NAME + 1];
         ::WaveName(_wh, wname);
         TangoSys_OMemStream reason;
-        reason << "out of memory error" << ends;
+        reason << "out of memory error (WMNewHandle failed)" << ends;
         TangoSys_OMemStream desc;
         desc << "could not insert data from wave " << wname << ends;
         Tango::Except::throw_exception(reason.str(), 
@@ -2696,7 +2696,7 @@ void DataCodec::insert (Tango::DeviceAttribute& _da, waveHndl _wh, CountInt _dim
           dim_indx[1] = j;
           if (::MDGetTextWavePointValue(_wh, dim_indx, txt_hndl)) 
           {
-            ::DisposeHandle(txt_hndl);
+            ::WMDisposeHandle(txt_hndl);
             char wname[MAX_OBJ_NAME + 1];
             ::WaveName(_wh, wname);
             TangoSys_OMemStream reason;
@@ -2707,10 +2707,10 @@ void DataCodec::insert (Tango::DeviceAttribute& _da, waveHndl _wh, CountInt _dim
                                            desc.str(), 
                                            (const char*)"DataCodec::insert");
           }
-          tmp = CORBA::string_alloc(static_cast<CORBA::ULong>(::GetHandleSize(txt_hndl) + 1));
+          tmp = CORBA::string_alloc(static_cast<CORBA::ULong>(::WMGetHandleSize(txt_hndl) + 1));
           if (tmp == 0) 
           {
-            ::DisposeHandle(txt_hndl);
+            ::WMDisposeHandle(txt_hndl);
             char wname[MAX_OBJ_NAME + 1];
             ::WaveName(_wh, wname);
             TangoSys_OMemStream reason;
@@ -2721,12 +2721,12 @@ void DataCodec::insert (Tango::DeviceAttribute& _da, waveHndl _wh, CountInt _dim
                                            desc.str(), 
                                            (const char*)"DataCodec::insert");
           }
-          ::MemClear(tmp, ::GetHandleSize(txt_hndl) + 1);
-          ::memcpy(tmp, *txt_hndl, ::GetHandleSize(txt_hndl));
+          ::MemClear(tmp, ::WMGetHandleSize(txt_hndl) + 1);
+          ::memcpy(tmp, *txt_hndl, ::WMGetHandleSize(txt_hndl));
           (*array)[i + j * max_j] = tmp;
         }
       }
-      DisposeHandle(txt_hndl);
+      WMDisposeHandle(txt_hndl);
 	    _da << array;
     } break;
     //-------------------------------------------------
@@ -2857,7 +2857,7 @@ public:
         }
         break;
     }
-    Handle txt_hndl = ::NewHandle(0L);
+    Handle txt_hndl = ::WMNewHandle(0L);
     if (txt_hndl == 0)
       return kError;
     if (! dim_y)
@@ -2868,10 +2868,10 @@ public:
       {
         w_dims[0] = i;
         w_dims[1] = j;
-        ::SetHandleSize(txt_hndl, ::strlen((*_seq)[static_cast<CORBA::ULong>(i + j * dim_y)]));
-        if (::MemError())
+        int err = ::WMSetHandleSize(txt_hndl, ::strlen((*_seq)[static_cast<CORBA::ULong>(i + j * dim_y)]));
+        if (err)
         {
-          ::DisposeHandle(txt_hndl);
+          ::WMDisposeHandle(txt_hndl);
           return kError;
         }
         ::memcpy(*txt_hndl, 
@@ -2880,7 +2880,7 @@ public:
         ::MDSetTextWavePointValue(_wh, w_dims, txt_hndl);
       }
     }
-    ::DisposeHandle(txt_hndl);
+    ::WMDisposeHandle(txt_hndl);
     return kNoError;
   }
 };
