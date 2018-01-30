@@ -250,7 +250,7 @@ XOPIORecResult XFUNC::call_mode (XOPIORecParam _xfunc_id)
       return (XOPIORecResult)XFUNC::tango_set_attr_monitor_period;
       break;
     case kTANGO_RELOAD_DEV_INTERFACE:
-      return (long)XFUNC::tango_reload_device_interface;
+      return (XOPIORecResult)XFUNC::tango_reload_device_interface;
       break;
     case kTANGO_IMG_PROJ:               
       return (XOPIORecResult)XFUNC::compute_image_projection;

@@ -1,7 +1,7 @@
 #pragma rtGlobals = 3
 #pragma version = 1.0
 #pragma IgorVersion = 6.0
-#pragma hide = 1 
+#pragma hide = 1
 
 //==============================================================================
 // tango.ipf
@@ -46,7 +46,7 @@ constant kAttrQualityWARNING	=  4
 // TANGO ATTRIBUTE ACCESS
 //------------------------------------------------------------------------------
 constant kREAD 				= 0x0
-constant kREAD_WITH_WRITE   = 0x1
+constant kREAD_WITH_WRITE = 0x1
 constant kWRITE				= 0x2
 constant kREAD_WRITE 		= 0x3
 //------------------------------------------------------------------------------
@@ -1131,7 +1131,7 @@ static function tep_open (show_err_stack)
 	GroupBox grp_box,win=tep_modal,title="Main Error",font="MS Shell Dlg"
 	ListBox err_list,win=tep_modal,pos={18,167},size={715,189},frame=2,disable=1
 	ListBox err_list,win=tep_modal,mode=2, font="MS Shell Dlg",fsize=kLB_FONTSIZE
-	ListBox err_list,win=tep_modal,widths={ww[0],ww[1],ww[2],ww[3],ww[4]}
+	ListBox err_list,win=tep_modal,widths={ww[0],ww[1],ww[2],ww[3]}
 	ListBox err_list,win=tep_modal,listWave=error_stack
 	KillWaves/Z ww   
 	Variable ctrl_enable = (show_err_stack) ? 0 : 1
@@ -2400,7 +2400,7 @@ function tango_get_state_color (state, r, g, b)
 		return kERROR
 	endif
 	WAVE/Z state_color = root:tango:common:state_color
-	if (state < kDeviceStateON || state > kDeviceStateUNKNOWN)
+	if (state < kDeviceStateON || state > kDeviceStateUNKNOWN || numtype(state)==2)
 		state = kDeviceStateUNKNOWN
 	endif
 	r = state_color[state][0]
@@ -2755,7 +2755,7 @@ end
 // function:  tango_db_get_dev_aliases
 //==============================================================================
 function tango_db_get_dev_aliases (dev_aliases)
-	Wave& dev_aliases
+	Wave/T& dev_aliases
 	SVAR tango_host = $tango_get_global_obj("tango_host", kSVAR)
 	if (strlen(tango_host) == 0)
 		tango_display_error_str("ERROR! SVAR root:tango:common:tango_host is not defined!")

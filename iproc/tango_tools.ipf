@@ -1,7 +1,7 @@
 #pragma rtGlobals = 3
 #pragma version = 1.0
 #pragma IgorVersion = 6.0
-#pragma hide = 1 
+#pragma hide = 1
 
 //==============================================================================
 // tango_tools.ipf
