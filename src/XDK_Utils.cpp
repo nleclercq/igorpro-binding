@@ -476,8 +476,15 @@ int XDK_Utils::get_obj_df (const std::string& fpn,
                            bool create_df)
 {
   std::string _fpn = fpn;
+
+  std::string::size_type search_pos = std::string::npos;
+
+  std::string::size_type sep_pos = _fpn.find(kNameSep);
+  if ( sep_pos != std::string::npos )
+    search_pos = sep_pos - 1;
+
   df_ = 0;
-  std::string::size_type pos = _fpn.rfind(':');
+  std::string::size_type pos = _fpn.rfind(':', search_pos);
   if (pos == std::string::npos) 
   {
     obj_name_ = _fpn; 

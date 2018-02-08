@@ -1,3 +1,4 @@
+#pragma TextEncoding = "UTF-8"
 #pragma rtGlobals = 3
 #pragma version = 1.0
 #pragma IgorVersion = 6.0

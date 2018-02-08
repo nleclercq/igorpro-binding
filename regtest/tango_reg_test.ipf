@@ -1,3 +1,4 @@
+#pragma TextEncoding = "UTF-8"
 #pragma rtGlobals = 2
 #pragma version = 1.0
 #pragma IgorVersion = 6.0
@@ -176,7 +177,7 @@ function test_tango_cmd_io (dev_name)
 	//- verbose
 	print " \rexecuting <" + cmd + ">...\r"
  
-	//- for perf measurement purpose , we start a µs timer
+	//- for perf measurement purpose , we start a Âµs timer
 	Variable mst_ref = StartMSTimer
 	 
 	//- actual cmd execution 
@@ -188,7 +189,7 @@ function test_tango_cmd_io (dev_name)
 		return -1
 	endif
 	
-	//- stop the timer and get elapsed µs
+	//- stop the timer and get elapsed Âµs
 	Variable mst_dt = StopMSTimer(mst_ref)
 	
 	//- print out the perf result
@@ -410,7 +411,7 @@ function test_tango_cmd_io (dev_name)
 	print "\t'-> cmd passed\r"
   
 	//- cleanup (suppose that waves are no longer needed)
-	KillWaves/Z argin_wave, argout_wave  
+	KillWaves/Z argin_wave, argout_wave   
   
 	//- ok, you know how to a execute a command with a numeric array arg for argin and/or argout
 	//- let's test the remaining commands using a dedicated generic function (less boring than 
@@ -591,7 +592,7 @@ function test_tango_cmd_io (dev_name)
 	//- cleanup (suppose that waves no are longer needed)
 	KillWaves/Z $argin.num_wave_path, $argout.num_wave_path
 	KillWaves/Z $argin.str_wave_path, $argout.str_wave_path
-
+   
 	//-------------------------------------------------------------------------------------------
 	// DEVVAR_LONGSTRINGARRAY/DEVVAR_LONGSTRINGARRAY
 	//-------------------------------------------------------------------------------------------
@@ -848,7 +849,7 @@ function test_tango_read_attr (dev_name)
 	//- it's simply the name of the attribute to read
 	av.attr = "short_scalar"
 
-	//- for perf measurement purpose , we start a µs timer
+	//- for perf measurement purpose , we start a Âµs timer
 	Variable mst_ref = StartMSTimer
 	 
 	//- no need to fill any other <AttributeValue> members in order to read an 
@@ -860,7 +861,7 @@ function test_tango_read_attr (dev_name)
 		return -1
 	endif
 	
-	//- stop the timer and get elapsed µs
+	//- stop the timer and get elapsed Âµs
  	Variable mst_dt = StopMSTimer(mst_ref)
  	
 	//- let's play with the attribute value...
