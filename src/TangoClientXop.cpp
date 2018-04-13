@@ -127,5 +127,5 @@ int TangoClientXop::clear_modified ()
 #if defined (_XDK_DEBUG_)
   XOP_MSG(("Tango-Binding::handling XOP message::CLEAR_MODIFIED"));
 #endif
-  return XDK_UTILS->build_tango_default_objs();
+  return kNoError;
 }

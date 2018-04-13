@@ -166,9 +166,6 @@ private:
   XDK_Utils(const char* xop_name);
   //- Ctor
 
-  int build_tango_objs (DFHndl _dfh);
-  //- Build TANGO objs in Igor Pro
-
   int set_tango_error_code (int _err_code = kError);
   //- Set TANGO error global var (in Igor env.) to <_err_code>
 
