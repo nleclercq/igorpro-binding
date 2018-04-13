@@ -2,7 +2,7 @@
 #pragma rtGlobals = 3
 #pragma version = 1.0
 #pragma IgorVersion = 6.0
-#pragma hide = 1   
+#pragma hide = 1 
 
 //==============================================================================
 // InterfaceGenerator.ipf
@@ -61,6 +61,34 @@ function tango_gen_device_interface (cintf, [dev_name])
 	endif
 	tango_gen_dev_int(local_file, local_prefix, local_device, cintf)
 	return kNO_ERROR
+end
+
+//==============================================================================
+// generated_func_name_exist
+//==============================================================================
+static function generated_func_name_exist (funcname)
+   String funcname
+	Wave/T funcnames = root:tango:funcnames
+	NVAR funcnames_idx = root:tango:funcnames_idx
+	Variable i = 0
+	Variable n = numpnts(funcnames)
+	for (; i < funcnames_idx; i+=1)
+	  if (cmpstr(funcname, funcnames[i], 0) == 0)
+	    return 1
+	  endif
+	endfor 
+	return 0
+end
+
+//==============================================================================
+// push_generated_func_name
+//==============================================================================
+static function push_generated_func_name (funcname)
+   String funcname
+	Wave/T funcnames = root:tango:funcnames
+	NVAR funcnames_idx = root:tango:funcnames_idx
+	funcnames[funcnames_idx] = funcname
+	funcnames_idx += 1
 end
 
 //==============================================================================
@@ -142,6 +170,11 @@ static function tango_gen_dev_int (file, prefix, dev_name, cintf)
 	fprintf ref_num,  "%s", "#include \"tango\"\n"
 	fprintf ref_num,  "%s", "\n"
 	tango_enter_attrs_df (dev_name)
+	//- tmp stuffs
+	Make/N=512/T root:tango:funcnames
+	Variable/G root:tango:funcnames_idx = 0
+	push_generated_func_name("double_scalar")
+	push_generated_func_name("DevVarLongArray")
 	//- for each attribute, generate its interface...
 	Variable i
 	String attr_name, cmd_name
@@ -150,32 +183,32 @@ static function tango_gen_dev_int (file, prefix, dev_name, cintf)
 		//- alist[i][0] contains the attribute name
 		attr_name = attr_list[i][0]
 		//- enter attribute datafolder
-		tango_enter_attr_df  (dev_name, attr_name)
+		tango_enter_attr_df(dev_name, attr_name)
 		//- get attributre access
 		access = tango_get_attr_access(dev_name, attr_name)
 		//- generate set/get code for the i-th attribute
 		switch (access)
 			case kREAD:
-				tango_gen_get_attribute (ref_num, dev_name, attr_name, cintf, prefix)
+				tango_gen_get_attribute(ref_num, dev_name, attr_name, cintf, prefix)
 				break
 			case kWRITE:
 			case kREAD_WRITE:
 			case kREAD_WITH_WRITE: 
-				tango_gen_get_attribute (ref_num, dev_name, attr_name, cintf, prefix)
-				tango_gen_set_attribute (ref_num, dev_name, attr_name, cintf, prefix)
+				tango_gen_get_attribute(ref_num, dev_name, attr_name, cintf, prefix)
+				tango_gen_set_attribute(ref_num, dev_name, attr_name, cintf, prefix)
 				break
 		endswitch
 	endfor
 	//- continue with commands...
-	tango_enter_cmds_df (dev_name)
+	tango_enter_cmds_df(dev_name)
 	//- for each command, generate its interface...
 	for (i  = 0; i < num_cmds; i+= 1)
 		//- clist[i][0] contains the command name
 		cmd_name = cmd_list[i][0]
 		//- enter attribute datafolder
-		tango_enter_cmd_df  (dev_name, cmd_name)
+		tango_enter_cmd_df(dev_name, cmd_name)
 		//- generate exec code for the i-th comand
-		tango_gen_exec_command (ref_num, dev_name, cmd_name, cintf, prefix)
+		tango_gen_exec_command(ref_num, dev_name, cmd_name, cintf, prefix)
 	endfor
 	//- close the destination file
 	tango_gen_close_proc_file(ref_num)
@@ -185,6 +218,9 @@ static function tango_gen_dev_int (file, prefix, dev_name, cintf)
 	Execute/Q(cmd)
 	cmd = "OpenProc /P=ipf_tmp \"" +  ParseFilePath(0, ipf_path, ":", 1, 0) + "\"\r"
 	Execute/Q(cmd)
+   //- cleanup tmp stuffs
+	KillWaves/Z root:tango:funcnames
+	KillVariables/Z root:tango:funcnames_idx
 	return kNO_ERROR
 end
 
@@ -198,7 +234,7 @@ static function tango_gen_set_attribute (ref_num, dev_name, attr_name, cintf, pf
 	Variable cintf
 	String pfx
 	String eol = "\n"
-	String func_txt = tango_set_attr_func_txt (dev_name, attr_name, cintf = cintf, pfx = pfx, eol = "\n")
+	String func_txt = tango_set_attr_func_txt(dev_name, attr_name, cintf = cintf, pfx = pfx, eol = "\n")
 	String token = ""
 	Variable i = 0
 	do 
@@ -222,7 +258,7 @@ static function tango_gen_get_attribute (ref_num, dev_name, attr_name, cintf, pf
 	Variable cintf
 	String pfx
 	String eol = "\n"
-	String func_txt = tango_get_attr_func_txt (dev_name, attr_name, cintf = cintf, pfx = pfx, eol = "\n")
+	String func_txt = tango_get_attr_func_txt(dev_name, attr_name, cintf = cintf, pfx = pfx, eol = "\n")
 	String token = ""
 	Variable i = 0
 	do 
@@ -246,7 +282,7 @@ static function tango_gen_exec_command (ref_num, dev_name, cmd_name, cintf, pfx)
 	Variable cintf
 	String pfx
 	String eol = "\n"
-	String func_txt = tango_cmd_func_txt (dev_name, cmd_name, cintf = cintf, pfx = pfx, eol = "\n")
+	String func_txt = tango_cmd_func_txt(dev_name, cmd_name, cintf = cintf, pfx = pfx, eol = "\n")
 	String token = ""
 	Variable i = 0
 	do 
@@ -306,7 +342,7 @@ end
 function tango_gen_cmd_func_to_scrap (dev_name, cmd_name)
 	String dev_name
 	String cmd_name
-	String func_txt = tango_cmd_func_txt (dev_name, cmd_name, eol = "\r")
+	String func_txt = tango_cmd_func_txt(dev_name, cmd_name, eol = "\r")
 	PutScrapText func_txt
 end
 
@@ -356,15 +392,21 @@ static function/S tango_get_attr_func_txt (dev_name, attr_name, [cintf, pfx, eol
 		print "WARNING: function name <" + func_name + "> is too long - troncated to 31 characters"
 		func_name = func_name[0,30]
 	endif
+	Variable fn_exist = generated_func_name_exist(func_name)
+	if (fn_exist)
+		func_name = pfx + "GetAttr" + tmp_attr_name
+		print("WARNING: read function for attribute " + dev_name + "/" + attr_name + " has been renamed to " + func_name)
+	endif
+	push_generated_func_name(func_name)
 	String func = ""
 	String tmp =""
 	func += "//==============================================================================" + eol
 	sprintf tmp, "// %s" + eol, func_name
 	func += tmp
 	func += "//==============================================================================" + eol
-	sprintf tmp, "//\tFunction......reads then returns the <%s> attribute value" + eol, attr_name
+	sprintf tmp, "//\tFunction......read then return the <%s> attribute value" + eol, attr_name
 	func += tmp
-	func += "//\tFeatures......may optionally returns both attribute timestamp and quality" + eol
+	func += "//\tFeatures......may optionally return both attribute timestamp and quality" + eol
 	sprintf tmp, "//\tDev.class.....%s" + eol, tango_get_device_class (dev_name)
 	func += tmp
 	sprintf tmp, "//\tAttr.name.....%s" + eol, attr_name
@@ -581,7 +623,7 @@ end
 //==============================================================================
 // tango_set_attr_func_txt
 //==============================================================================
-static function/S tango_set_attr_func_txt (dev_name, attr_name, [cintf, pfx, eol])
+static function/S tango_set_attr_func_txt(dev_name, attr_name, [cintf, pfx, eol])
 	String dev_name
 	String attr_name
 	Variable cintf
@@ -604,13 +646,19 @@ static function/S tango_set_attr_func_txt (dev_name, attr_name, [cintf, pfx, eol
 		print "WARNING: function name <" + func_name + "> is too long - troncated to 31 characters"
 		func_name = func_name[0,30]
 	endif
+	Variable fn_exist = generated_func_name_exist(func_name)
+	if (fn_exist)
+		func_name = pfx + "SetAttr" + tmp_attr_name
+		print("WARNING: write function for attribute " + dev_name + "/" + attr_name + " has been renamed to " + func_name)
+	endif
+	push_generated_func_name(func_name)
 	String func = ""
 	String tmp
 	func += "//==============================================================================" + eol
 	sprintf tmp, "// %s" + eol, func_name
 	func += tmp
 	func += "//==============================================================================" + eol
-	sprintf tmp, "//\tFunction......writes the specified value on the <%s> attribute" + eol, attr_name
+	sprintf tmp, "//\tFunction......write the specified value on the <%s> attribute" + eol, attr_name
 	func += tmp
 	sprintf tmp, "//\tDev.class.....%s" + eol, tango_get_device_class (dev_name)
 	func += tmp
@@ -853,7 +901,7 @@ end
 //==============================================================================
 // tango_cmd_func_txt
 //==============================================================================
-static function/S tango_cmd_func_txt (dev_name, cmd_name, [cintf, pfx, eol])
+static function/S tango_cmd_func_txt(dev_name, cmd_name, [cintf, pfx, eol])
 	String dev_name
 	String cmd_name
 	Variable cintf
@@ -874,6 +922,12 @@ static function/S tango_cmd_func_txt (dev_name, cmd_name, [cintf, pfx, eol])
 		print "WARNING: function name <" + func_name + "> is too long - troncated to 31 characters"
 		func_name = func_name[0,30]
 	endif
+	Variable fn_exist = generated_func_name_exist(func_name)
+	if (fn_exist)
+		func_name = pfx + "Exec" + tmp_cmd_name
+		print("WARNING: execute function for command " + dev_name + "/" + cmd_name + " has been renamed to " + func_name)
+	endif
+	push_generated_func_name(func_name)
 	Variable argin_type = tango_get_cmd_argin_type (dev_name, cmd_name)
 	Variable argout_type = tango_get_cmd_argout_type (dev_name, cmd_name)
 	String func = ""
@@ -882,7 +936,7 @@ static function/S tango_cmd_func_txt (dev_name, cmd_name, [cintf, pfx, eol])
 	sprintf tmp, "// %s" + eol, func_name
 	func += tmp
 	func += "//==============================================================================" + eol
-	sprintf tmp, "//\tFunction.......executes the <%s> command" + eol, cmd_name
+	sprintf tmp, "//\tFunction.......execute the <%s> command" + eol, cmd_name
 	func += tmp
 	sprintf tmp, "//\tDev.class......%s" + eol, tango_get_device_class (dev_name)
 	func += tmp

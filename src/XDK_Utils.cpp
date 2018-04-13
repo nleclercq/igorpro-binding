@@ -45,13 +45,7 @@ const char* XDK_Utils::common_df_path_ = kTANGO_COMMON_DF;
 //=============================================================================
 // LOCAL CONSTS
 //=============================================================================
-// static const char *lkTANGO_HOST = "tango_host";
-// static const char *lkDEFAULT_TANGO_HOST = "sys/database/dbds1";
-//-----------------------------------------------------------------------------
 static const char *lkTANGO_ERR_CODE = "error";
-static const char *lkTANGO_ERR_DESC = "desc";
-static const char *lkTANGO_ERR_ORIG = "origin";
-static const char *lkTANGO_ERR_REAS = "reason";
 //----------------------------------------------------------------------------
 
 //=============================================================================
@@ -658,54 +652,8 @@ DataFolderHandle XDK_Utils::tango_common_df ()
   {
     //- user may have killed the DF
     dfh = this->create_df(this->tango_common_df_path());
-    if (dfh) 
-    {
-      //-rebuild tango objs
-      this->build_tango_objs(dfh);
-    }
   }
   return dfh;
-}
-
-//=============================================================================
-// XDK_Utils::build_tango_default_objs                        
-//=============================================================================  
-int XDK_Utils::build_tango_default_objs ()
-{	  
-  DataFolderHandle dfh = tango_common_df();
-  if (dfh == 0)
-    return kError;
-
-  return this->build_tango_objs(dfh);
-}
-
-//=============================================================================
-// XDK_Utils::build_tango_objs                        
-//=============================================================================  
-int XDK_Utils::build_tango_objs (DataFolderHandle _dfh)
-{	  
-  if (_dfh == 0) 
-    return kError;
-
-  int result = kNoError;
-  do 
-  {
-    //- if (this->create_df_obj(_dfh, lkTANGO_HOST, lkDEFAULT_TANGO_HOST)) 
-    //- {result = kError; break;}
-
-    if (this->create_df_obj(_dfh, lkTANGO_ERR_CODE, (double)0))
-      {result = kError; break;}
-
-    if (this->create_df_obj(_dfh, lkTANGO_ERR_REAS, "no error"))
-      {result = kError; break;}
-
-    if (this->create_df_obj(_dfh, lkTANGO_ERR_DESC, "no error"))
-      {result = kError; break;}
-
-    if (this->create_df_obj(_dfh, lkTANGO_ERR_ORIG, "no error"))
-      {result = kError; break;}
-  } while (0);
-  return result;
 }
 
 //=============================================================================
