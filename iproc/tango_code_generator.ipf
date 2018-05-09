@@ -473,11 +473,11 @@ static function/S tango_get_attr_func_txt (dev_name, attr_name, naming_scheme, [
 	else
 	   get_pfx = "GetAttr"
 	endif
-	String func_name = pfx + get_pfx + tmp_attr_name
+	String func_name = get_pfx + tmp_attr_name
 	if (naming_scheme == kNS_OLD)   
 	   Variable fn_exist = generated_func_name_exist(func_name)
 	   if (fn_exist)
-		   func_name = pfx + "GetAttr" + tmp_attr_name
+		   func_name = "GetAttr" + tmp_attr_name
 		   print("WARNING: read function for attribute " + dev_name + "/" + attr_name + " has been renamed to " + func_name)
 	   endif
 	   push_generated_func_name(func_name)
@@ -486,7 +486,7 @@ static function/S tango_get_attr_func_txt (dev_name, attr_name, naming_scheme, [
 		print "WARNING: function name <" + func_name + "> is too long - truncated to 31 characters"
 		func_name = func_name[0,30]
 	endif
-	func_name = snake_to_camel_case(func_name)
+	func_name = pfx + snake_to_camel_case(func_name)
 	String func = ""
 	String tmp =""
 	func += "//==============================================================================" + eol
@@ -735,11 +735,11 @@ static function/S tango_set_attr_func_txt(dev_name, attr_name, naming_scheme, [c
 	if (naming_scheme == kNS_OLD)
 	   set_pfx = "Set"
 	endif
-	String func_name = pfx + set_pfx + tmp_attr_name
+	String func_name = set_pfx + tmp_attr_name
 	if (naming_scheme == kNS_OLD)   
 	   Variable fn_exist = generated_func_name_exist(func_name)
 	   if (fn_exist)
-		   func_name = pfx + "SetAttr" + tmp_attr_name
+		   func_name = "SetAttr" + tmp_attr_name
 		   print("WARNING: write function for attribute " + dev_name + "/" + attr_name + " has been renamed to " + func_name)
 	   endif
 	   push_generated_func_name(func_name)
@@ -748,7 +748,7 @@ static function/S tango_set_attr_func_txt(dev_name, attr_name, naming_scheme, [c
 		print "WARNING: function name <" + func_name + "> is too long - truncated to 31 characters"
 		func_name = func_name[0,30]
 	endif
-	func_name = snake_to_camel_case(func_name)
+	func_name = pfx + snake_to_camel_case(func_name)
 	String func = ""
 	String tmp
 	func += "//==============================================================================" + eol
@@ -1019,11 +1019,11 @@ static function/S tango_cmd_func_txt(dev_name, cmd_name, naming_scheme, [cintf, 
 	if (naming_scheme == kNS_OLD)
 	   exec_pfx = ""
 	endif
-	String func_name = pfx + exec_pfx + cmd_name
+	String func_name = exec_pfx + cmd_name
 	if (naming_scheme == kNS_OLD)   
 	   Variable fn_exist = generated_func_name_exist(func_name)
 	   if (fn_exist)
-		   func_name = pfx + "Exec" + cmd_name
+		   func_name = "Exec" + cmd_name
 		   print("WARNING: execute function for command " + dev_name + "/" + cmd_name + " has been renamed to " + func_name)
 	   endif
 	   push_generated_func_name(func_name)
@@ -1032,7 +1032,7 @@ static function/S tango_cmd_func_txt(dev_name, cmd_name, naming_scheme, [cintf, 
 		print "WARNING: function name <" + func_name + "> is too long - truncated to 31 characters"
 		func_name = func_name[0,30]
 	endif
-	func_name = snake_to_camel_case(func_name)
+	func_name = pfx + snake_to_camel_case(func_name)
 	Variable argin_type = tango_get_cmd_argin_type (dev_name, cmd_name)
 	Variable argout_type = tango_get_cmd_argout_type (dev_name, cmd_name)
 	String func = ""
