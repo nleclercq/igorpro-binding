@@ -598,7 +598,7 @@ function tango_read_attr (attr_val_io)
 	//- get current datafolder
 	String cur_df = GetDataFolder(1)
 	//- name of attr value (i.e. var, string or wave name) defaults to attr name 
-	String result_name = attr_val_io.attr
+	String result_name = attr_val_io.attr + "_v" 
 	//- path hell...
 	String path = attr_val_io.val_path
 	if (strlen(path))
