@@ -119,7 +119,7 @@ static constant kATTR_DISP_FORMAT_COL	= 10
 static constant kATTR_DESC_COL			= 15
 static constant kATTR_WATTR_COL			= 16
 //------------------------------------------------------------------------------
-strconstant kLB_FONT = "MS Sans Serif" 
+strconstant kLB_FONT = "Arial" 
 //------------------------------------------------------------------------------
 constant kLB_FONTSIZE = 12
 //------------------------------------------------------------------------------
