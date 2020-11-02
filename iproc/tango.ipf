@@ -1117,7 +1117,7 @@ static function tep_open (show_err_stack)
 	SetDimLabel 1, 2, Description, error_stack
 	SetDimLabel 1, 3, Origin, error_stack
 	Make /O /N=(dimsize(error_stack,1)) ww
-	Variable min_w = FontSizeStringWidth($kLB_FONT, kLB_FONTSIZE, 0, "Severity")
+	Variable min_w = FontSizeStringWidth(kLB_FONT, kLB_FONTSIZE, 0, "Severity")
 	Wave/T es = root:tango:common:error_stack
 	tools_get_listbox_colwidths(es, ww, min_w)
 	if (show_err_stack)
