@@ -23,9 +23,7 @@ cd c:\github
 git clone git@github.com:tango-controls/igorpro-binding.git
 ```
 
-- ###As of v3.0.1, simply execute run-me-to-compile-for-[x86 or x64].bat from c:\github\igorpro-binding\windows and build the project.###
-The resulting Tango XOP - i.e. tango_binding_[x86 or x64].xop - will be localzed in c:\github\igorpro-binding\src.
-The following build procedure is still valid in case you want to compile the binding against you own version of the Igor Pro XOP Toolikt.
+##### As of v3.0.1, simply execute run-me-to-compile-for-[x86 or x64].bat from c:\github\igorpro-binding\windows and build the project. The resulting Tango XOP - i.e. tango_binding_[x86 or x64].xop - will be localzed in c:\github\igorpro-binding\src. The following build procedure is still valid in case you want to compile the binding against you own version of the Igor Pro XOP Toolikt.
 
 - edit the `compil-env-setup.bat` file
 ```
