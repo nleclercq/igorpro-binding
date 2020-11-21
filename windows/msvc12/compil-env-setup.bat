@@ -51,7 +51,7 @@ set YAT_FOR_TANGO_LIB_LIST=yat4tango.lib
 set YAT_FOR_TANGO_LIB_DEBUG_LIST=yat4tangod.lib
 
 :: ======== IGOR PRO XOP
-set XOP_TOOLKIT_ROOT=C:\mystuffs\dev\bindings\igorpro-binding@github\xop-toolkit
+set XOP_TOOLKIT_ROOT=C:\mystuffs\dev\bindings\igorpro-binding@github\xop-toolkit-7.1
 set XOP_INC=%XOP_TOOLKIT_ROOT%\include
 set XOP_RC=%XOP_TOOLKIT_ROOT%\resource
 set XOP_LIB=%XOP_TOOLKIT_ROOT%\lib

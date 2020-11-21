@@ -26,7 +26,7 @@
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>Windows7.1SDK</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -291,7 +291,7 @@
       <ShowProgress>true</ShowProgress>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>$(XOP_LIB_LIST);$(OMNIORB_LIB_LIST);$(LOG4TANGO_LIB_LIST);$(TANGO_LIB_LIST);$(YAT_LIB_LIST);user32.lib;Version.lib;$(YAT_FOR_TANGO_LIB_LIST);;Version.lib</AdditionalDependencies>
+      <AdditionalDependencies>$(XOP_LIB_LIST);$(OMNIORB_LIB_LIST);$(LOG4TANGO_LIB_LIST);$(TANGO_LIB_LIST);$(YAT_LIB_LIST);$(YAT_FOR_TANGO_LIB_LIST);user32.lib;Version.lib;comdlg32.lib</AdditionalDependencies>
       <OutputFile>..\..\src\tango_binding_x64.xop</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>comdlg32.lib;$(XOP_LIB);$(OMNIORB_LIB);$(LOG4TANGO_LIB);$(TANGO_LIB);$(YAT_LIB);$(YAT_FOR_TANGO_LIB);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -345,6 +345,7 @@
     <ClCompile Include="..\..\src\XDK_Xop.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\..\igorpro-binding%40github\src\XDK_Utils.i" />
     <None Include="..\..\src\icon1.ico" />
     <None Include="..\..\src\XDK_Specific_Resources.r" />
     <None Include="..\..\src\XDK_STR#_1100_Win32.r" />

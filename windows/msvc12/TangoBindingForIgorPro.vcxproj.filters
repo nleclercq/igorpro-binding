@@ -127,6 +127,9 @@
     <None Include="..\..\src\XDK_XOPI_1100_Win32.r">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="..\..\..\igorpro-binding%40github\src\XDK_Utils.i">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\src\XDK_Resources.rc">

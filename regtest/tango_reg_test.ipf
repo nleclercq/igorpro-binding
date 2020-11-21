@@ -999,7 +999,7 @@ function test_tango_read_attr (dev_name)
 	
 	WAVE/Z attr_value = $av.val_path
 	if (WaveExists(attr_value) == 0)
-		tango_display_error_str("Oops, there is something wrong! The wave desappered!")
+		tango_display_error_str("Oops, there is something wrong! The wave disappeared!")
 		return -1
 	endif
   
@@ -1121,7 +1121,7 @@ function test_tango_read_attr (dev_name)
 	print "\t-read took......." + num2str(mst_dt / 1000) + " ms to complete"
   	
 	av.attr = "short_image"
-	av.val_path=""
+	av.val_path="short_image_vp"
 	mst_ref = StartMSTimer 
 	if (tango_read_attr (av) == -1)
 		tango_display_error()
